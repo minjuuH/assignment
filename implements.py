@@ -78,7 +78,14 @@ class Ball(Basic):
     def hit_wall(self):
         # ============================================
         # TODO: Implement a service that bounces off when the ball hits the wall
-        pass
+        width, height = config.display_dimension
+
+        if self.rect.left <= 0 or self.rect.right >= width:
+            self.dir = 180 - self.dir
+        
+        if self.rect.top <= 0:
+            self.dir = -self.dir
+            
     
     def alive(self):
         # ============================================
