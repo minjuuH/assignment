@@ -37,7 +37,8 @@ class Block(Basic):
         # ============================================
         # TODO: Implement an event when block collides with a ball
         pass
-
+            
+            
 
 class Paddle(Basic):
     def __init__(self):
@@ -69,7 +70,7 @@ class Ball(Basic):
         # ============================================
         # TODO: Implement an event when the ball hits a block
         pass
-
+                
     def collide_paddle(self, paddle: Paddle) -> None:
         if self.rect.colliderect(paddle.rect):
             self.dir = 360 - self.dir + random.randint(-5, 5)
@@ -78,11 +79,14 @@ class Ball(Basic):
         # ============================================
         # TODO: Implement a service that bounces off when the ball hits the wall
         pass
-        # 좌우 벽 충돌
-        
-        # 상단 벽 충돌
     
     def alive(self):
         # ============================================
         # TODO: Implement a service that returns whether the ball is alive or not
-        pass
+        width, height = config.display_dimension
+        return self.rect.bottom < height
+            
+            
+        
+        
+            
