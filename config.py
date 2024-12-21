@@ -36,6 +36,8 @@ ball_pos = (center_x, paddle_pos[1] - paddle_size[1])
 ball_fever_color = (255, 50, 0)
 ball_size = (20, 20)
 
+ball_item_colors = [(255, 0, 0), (0, 0, 255)]
+
 
 # Setting for items
 item_size = (20, 20)
