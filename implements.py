@@ -37,8 +37,6 @@ class Block(Basic):
         # ============================================
         # TODO: Implement an event when block collides with a ball
         self.alive = False
-
-            
             
 
 class Paddle(Basic):
@@ -59,25 +57,33 @@ class Paddle(Basic):
 
 
 class Ball(Basic):
-    def __init__(self, pos: tuple = config.ball_pos):
-        super().__init__(config.ball_color, config.ball_speed, pos, config.ball_size)
+    def __init__(self, color = config.ball_color, pos: tuple = config.ball_pos):
+        super().__init__(color, config.ball_speed, pos, config.ball_size)
         self.power = 1
         self.dir = 90 + random.randint(-45, 45)
 
     def draw(self, surface):
         pygame.draw.ellipse(surface, self.color, self.rect)
 
-    def collide_block(self, blocks: list):
+    def collide_block(self, blocks: list, balls: list):
         # ============================================
         # TODO: Implement an event when the ball hits a block
+        import random       #random한 공 색상 지정을 위한 random 모듈 import
+
         for block in blocks:
             if self.rect.colliderect(block.rect) and block.alive:
                 block.collide()
                 blocks.remove(block)
-                self.dir = -self.dir  
+                self.dir = -self.dir
 
+                new_color = random.randint(0,1)         #둘 중 하나를 고르기 위한 random 값
+
+                #새로운 ball 객체 생성
+                new_ball = BallItem(config.ball_item_colors[new_color], pos=self.rect.center)
+
+                balls.append(new_ball)  #ball 리스트에 새 공 추가
                 
-    def collide_paddle(self, paddle: Paddle) -> None:
+    def collide_paddle(self, paddle: Paddle, balls: list) -> None:
         if self.rect.colliderect(paddle.rect):
             self.dir = 360 - self.dir + random.randint(-5, 5)
 
@@ -90,8 +96,7 @@ class Ball(Basic):
             self.dir = 180 - self.dir
         
         if self.rect.top <= 0:
-            self.dir = -self.dir
-            
+            self.dir = -self.dir   
     
     def alive(self):
         # ============================================
@@ -99,7 +104,18 @@ class Ball(Basic):
         width, height = config.display_dimension
         return self.rect.bottom < height
             
-            
-        
+
+class BallItem(Ball):   #Ball을 상속받은 아이템 클래스
+    def __init__(self, color: tuple, pos: tuple = config.ball_pos):
+        super().__init__(color, pos)
+        self.dir = 270              #아이템이 아래로만 떨어지도록 설정
+
+    def collide_block(self, blocks: list, balls:list):
+        pass    #블록과 충돌 시 아무 동작 x
+
+    def collide_paddle(self, paddle: Paddle, balls: list) -> None:
+        # 아이템이 패들과 부딪힐 경우 삭제되도록 설정
+        if self.rect.colliderect(paddle.rect):
+            balls.remove(self)
         
             
