@@ -63,8 +63,8 @@ def tick():
             ball.rect.centerx = paddle.rect.centerx
             ball.rect.bottom = paddle.rect.top
 
-        ball.collide_block(BLOCKS)
-        ball.collide_paddle(paddle)
+        ball.collide_block(BLOCKS, BALLS)
+        ball.collide_paddle(paddle, BALLS)
         ball.hit_wall()
         if ball.alive() == False:
             BALLS.remove(ball)
