@@ -76,12 +76,13 @@ class Ball(Basic):
                 blocks.remove(block)
                 self.dir = -self.dir
 
-                new_color = random.randint(0,1)         #둘 중 하나를 고르기 위한 random 값
+                if random.random() < 0.2:   # 20% 확률로 item 생성
+                    new_color = random.randint(0,1)         #둘 중 하나를 고르기 위한 random 값
 
-                #새로운 ball 객체 생성
-                new_ball = BallItem(config.ball_item_colors[new_color], pos=self.rect.center)
+                    #새로운 ball 객체 생성
+                    new_ball = BallItem(config.ball_item_colors[new_color], pos=self.rect.center)
 
-                balls.append(new_ball)  #ball 리스트에 새 공 추가
+                    balls.append(new_ball)  #ball 리스트에 새 공 추가
                 
     def collide_paddle(self, paddle: Paddle, balls: list) -> None:
         if self.rect.colliderect(paddle.rect):
