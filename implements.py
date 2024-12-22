@@ -61,6 +61,7 @@ class Ball(Basic):
         super().__init__(color, config.ball_speed, pos, config.ball_size)
         self.power = 1
         self.dir = 90 + random.randint(-45, 45)
+        self.pos = pos
 
     def draw(self, surface):
         pygame.draw.ellipse(surface, self.color, self.rect)
@@ -115,8 +116,18 @@ class BallItem(Ball):   #Ball을 상속받은 아이템 클래스
         pass    #블록과 충돌 시 아무 동작 x
 
     def collide_paddle(self, paddle: Paddle, balls: list) -> None:
+        
+
         # 아이템이 패들과 부딪힐 경우 삭제되도록 설정
         if self.rect.colliderect(paddle.rect):
+            if self.color == (0, 0, 255):
+                for i in range(2):
+                    new_ball = Ball(pos=balls[0].center)
+                    balls.append(new_ball)  #ball 리스트에 새 공 추가
+                    new_ball.move
+
             balls.remove(self)
+        
+        
         
             
